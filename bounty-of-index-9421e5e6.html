@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>赏金大对决 · 简洁博客式介绍</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f3f5f7;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      color: #1e2a36;
+      line-height: 1.7;
+      padding: 2rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page-wrap {
+      max-width: 780px;
+      width: 100%;
+    }
+
+    /* 卡片结构 */
+    .card {
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.03);
+      padding: 2rem 1.8rem;
+      margin-bottom: 2rem;
+      border: 1px solid #e7eaee;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .card:last-of-type {
+      margin-bottom: 1.8rem;
+    }
+
+    /* 文章标题（博客式） */
+    .blog-title {
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 0.25rem;
+      color: #121c27;
+    }
+
+    .blog-meta {
+      font-size: 0.9rem;
+      color: #6d7a88;
+      margin-bottom: 1.5rem;
+      display: block;
+      border-bottom: 1px dashed #d2dae0;
+      padding-bottom: 0.9rem;
+    }
+
+    /* 导语 */
+    .lead {
+      font-size: 1.12rem;
+      color: #2c3a48;
+      margin-bottom: 1.6rem;
+      padding-left: 0.4rem;
+      border-left: 4px solid #b0c4d4;
+      padding-left: 1rem;
+      font-weight: 380;
+    }
+
+    /* 正文段落 */
+    p {
+      margin-bottom: 1.2rem;
+      font-size: 1rem;
+      color: #1f2b37;
+    }
+
+    /* 引用块 */
+    .blockquote {
+      background: #f0f3f6;
+      padding: 1.2rem 1.6rem;
+      border-radius: 12px;
+      margin: 1.8rem 0 1.8rem 0;
+      font-style: normal;
+      border-left: 5px solid #728b9f;
+      font-size: 0.98rem;
+      color: #1f303e;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .blockquote span {
+      display: block;
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: #556a7a;
+    }
+
+    /* 特点列表（轻列表） */
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0 0.8rem 0;
+    }
+
+    .feature-list li {
+      padding: 0.4rem 0 0.4rem 1.5rem;
+      position: relative;
+      font-size: 0.98rem;
+      border-bottom: 1px solid #edf0f3;
+    }
+
+    .feature-list li:last-child {
+      border-bottom: none;
+    }
+
+    .feature-list li::before {
+      content: "·";
+      position: absolute;
+      left: 0.2rem;
+      color: #4d6b80;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    /* 场景卡片（内嵌风格） */
+    .scene-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin: 1.6rem 0 0.6rem 0;
+    }
+
+    .scene-item {
+      background: #f7f9fb;
+      padding: 1rem 1.3rem;
+      border-radius: 14px;
+      border: 1px solid #e0e5ea;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+    }
+
+    .scene-item strong {
+      display: block;
+      font-weight: 600;
+      color: #1f3648;
+      margin-bottom: 0.2rem;
+      font-size: 1rem;
+    }
+
+    .scene-item p {
+      margin-bottom: 0;
+      font-size: 0.94rem;
+    }
+
+    /* 提示/访问句 区域 */
+    .visit-hint {
+      background: #eef2f6;
+      border-radius: 16px;
+      padding: 1.4rem 1.6rem;
+      margin: 1.8rem 0 0.4rem 0;
+      border: 1px solid #d7dee5;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+    }
+
+    .visit-hint p {
+      margin-bottom: 0.2rem;
+    }
+
+    /* FAQ 摘要 (折叠感) */
+    .faq-item {
+      border-bottom: 1px solid #e2e8ee;
+      padding: 0.8rem 0;
+    }
+
+    .faq-item:last-of-type {
+      border-bottom: none;
+    }
+
+    .faq-q {
+      font-weight: 550;
+      color: #1a2e3e;
+      margin-bottom: 0.15rem;
+      font-size: 1rem;
+    }
+
+    .faq-a {
+      font-size: 0.92rem;
+      color: #3f5263;
+      margin-top: 0.15rem;
+    }
+
+    /* 链接样式：a 标签自然融入句子 */
+    a {
+      color: #1f6190;
+      text-decoration: none;
+      border-bottom: 1px dotted #a8c1d6;
+      transition: border-bottom 0.1s, color 0.15s;
+    }
+
+    a:hover {
+      color: #0f3d5e;
+      border-bottom: 1px solid #0f3d5e;
+    }
+
+    /* 响应式细节 */
+    @media (max-width: 500px) {
+      .page-wrap {
+        padding: 0;
+      }
+      body {
+        padding: 1.2rem 0.8rem;
+      }
+      .card {
+        padding: 1.5rem 1.2rem;
+        border-radius: 14px;
+      }
+      .blog-title {
+        font-size: 1.6rem;
+      }
+      .lead {
+        font-size: 1rem;
+        padding-left: 0.8rem;
+      }
+      .scene-item {
+        padding: 0.9rem 1rem;
+      }
+      .blockquote {
+        padding: 1rem 1.2rem;
+      }
+    }
+
+    /* 额外细微 */
+    .subnote {
+      font-size: 0.9rem;
+      color: #5c6f7e;
+      margin-top: 0.6rem;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #dae0e6;
+      margin: 1.5rem 0 0.2rem 0;
+    }
+
+    .footer-text {
+      font-size: 0.85rem;
+      color: #7a8b9a;
+      text-align: center;
+      margin: 1.2rem 0 0.5rem;
+      border-top: 1px solid #e2e7ec;
+      padding-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- 主文章卡片（博客式） -->
+  <article class="card">
+    <h1 class="blog-title">赏金大对决：快速识别网站用途</h1>
+    <div class="blog-meta">简洁博客 · 用途导向 · 2025</div>
+
+    <p class="lead">打开一个陌生的网站，第一件事就是搞清楚：这是做什么的？<br>「赏金大对决」这个名字听起来像是一款游戏、一个活动，或是一个奖励机制——它到底是什么？这篇笔记从实际使用场景出发，帮你一分钟建立清晰认识。</p>
+
+    <p>网站 <strong><a href="https://bounty-of-showdown.com">赏金大对决</a></strong> 围绕一个核心概念搭建：用户通过完成指定的挑战或任务，获得对应奖励（赏金），而“对决”暗示着互动、比较或竞争机制。它不是传统的电商或信息展示页，更像一个任务型奖励平台。你可以把它理解为：<em>做任务、拿赏金、看排行</em>——目的单纯，路径直接。</p>
+
+    <p>如果你常逛悬赏、挑战或成就类社区，对这种模式不会陌生。网站将赏金与对决融合，让每一次行动都带有目标感。对于想快速确认网站是否适合自己的人来说，下面几个特点或许能帮你对号入座。</p>
+
+    <!-- 特点列表（非标题式） -->
+    <ul class="feature-list">
+      <li><strong>任务驱动</strong> —— 每个赏金都对应一个明确的行为，完成即可获得奖励，规则通常在页面内展示。</li>
+      <li><strong>透明机制</strong> —— 赏金数额、完成条件、时间限制都列在任务卡片中，不需要猜测。</li>
+      <li><strong>轻度竞技</strong> —— 部分任务含排行榜或进度条，你能看到自己和其他参与者的相对位置。</li>
+      <li><strong>低门槛参与</strong> —— 多数任务不需要特殊资质，注册或授权后即可开始。</li>
+    </ul>
+
+    <!-- 引用提示 -->
+    <div class="blockquote">
+      “刚开始我只想看看赏金是不是真的能兑换，试了一个简单任务之后，发现流程比想象中直接——没有隐藏条件，也没有复杂跳转。”
+      <span>—— 一位使用者的体验摘录</span>
+    </div>
+
+    <p>网站没有冗长的注册流程，也没有铺满屏幕的广告弹窗。首页以赏金列表为主，每个条目都包含赏金金额、剩余时间和任务简述。如果你习惯在完成任务后获得即时反馈，这种风格应该会让你觉得清爽。</p>
+  </article>
+
+  <!-- 场景卡片：谁可能会用到？ -->
+  <div class="card">
+    <h2 style="font-size:1.2rem; font-weight:520; margin-bottom: 0.4rem; color:#1d3344;">常见使用场景</h2>
+    <p style="font-size:0.95rem; color:#3b4f5e; margin-bottom: 0.8rem;">不用费力猜测，以下场景能帮你对号入座：</p>
+
+    <div class="scene-grid">
+      <div class="scene-item">
+        <strong>想快速验证平台可信度</strong>
+        <p>完成一个免费或低门槛的赏金任务，观察从任务完成到奖励到账的全过程。这是最直接的验证方式，网站首页通常会突出展示最新完成记录。</p>
+      </div>
+      <div class="scene-item">
+        <strong>比较不同任务的回报率</strong>
+        <p>赏金金额和难度往往呈正比，你可以花几分钟扫一眼列表，挑出投入产出比最高的任务——就像挑选一份兼职一样自然。</p>
+      </div>
+      <div class="scene-item">
+        <strong>轻度参与，感受氛围</strong>
+        <p>即使不打算长期投入，偶尔完成一两个简单任务也能体验“对决”的乐趣。网站的社交属性较弱，更注重个体行动与奖励的对应关系。</p>
+      </div>
+    </div>
+
+    <p class="subnote">如果你对以上任何一个场景感兴趣，直接打开 <a href="https://bounty-of-showdown.com">赏金大对决</a> 首页，看看当前有哪些活跃任务——大部分信息都在首屏，不需要注册也能浏览。</p>
+  </div>
+
+  <!-- FAQ 摘要卡片 + 访问句 -->
+  <div class="card">
+    <h2 style="font-size:1.15rem; font-weight:520; margin-bottom: 1rem; color:#1d3344;">FAQ 摘要 · 快速上手</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">“赏金大对决”需要付费才能参与吗？</div>
+      <div class="faq-a">绝大多数任务免费参与。部分高额赏金可能要求完成前置条件（如绑定账号或通过基础验证），但首页会明确标注，无需付费解锁。</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">奖励如何发放？</div>
+      <div class="faq-a">根据任务说明，奖励会以平台积分、代币或指定方式发放，具体形式在每个任务详情页都有说明。建议第一次做任务前仔细阅读规则。</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">网站适合新手吗？</div>
+      <div class="faq-a">适合。任务按难度分类，新手可以先从“简单/新手”标签的任务入手。首页也有简短的引导提示，跟着走一遍就能熟悉流程。</div>
+    </div>
+
+    <!-- 访问句（自然嵌入） -->
+    <div class="visit-hint">
+      <p>如果你现在就想看看有哪些赏金任务，或者想确认这个网站的界面是否符合你的预期，可以直接前往 <a href="https://bounty-of-showdown.com">赏金大对决</a> 的主页。首页就是任务广场，一切都明明白白地列在那里。</p>
+    </div>
+  </div>
+
+  <!-- 结尾轻提示 -->
+  <div style="text-align: left; font-size: 0.88rem; color: #6b7e8f; padding-left: 0.2rem; border-left: 2px solid #cbd6e0; padding-left: 0.8rem; margin-top: -0.2rem;">
+    <p style="margin-bottom: 0;">以上内容基于网站公开信息整理，旨在帮助新访客快速理解用途。具体规则以 <a href="https://bounty-of-showdown.com">赏金大对决</a> 页面实际展示为准。</p>
+  </div>
+
+  <div class="footer-text">
+    简洁博客介绍页 · 用途导向 · 开放式阅读
+  </div>
+</div>
+</body>
+</html>
